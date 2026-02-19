@@ -1,0 +1,298 @@
+.layout-sidebar {
+    position: fixed;
+    width: 300px;
+    height: calc(100vh - 9rem);
+    z-index: 999;
+    overflow-y: auto;
+    user-select: none;
+    top: 7rem;
+    left: 2rem;
+    transition: transform $transitionDuration, left $transitionDuration;
+    background-color: var(--surface-overlay);
+    border-radius: $borderRadius;
+    padding: 0.5rem 1.5rem;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, .02), 0px 0px 2px rgba(0, 0, 0, .05), 0px 1px 4px rgba(0, 0, 0, .08);
+}
+
+.layout-menu {
+    margin: 10px;
+    padding: 0;
+    list-style-type: none;
+
+    .layout-root-menuitem {
+        // Separación entre elementos del menú principal
+        margin-bottom: 0.5rem;
+
+        // Primer elemento (HOME) con margen superior adicional
+        &:first-child {
+            margin-top: 2rem;
+        }
+
+        // Elementos del primer nivel con comportamiento unificado
+        > a {
+            display: flex;
+            align-items: left;
+            position: relative;
+            outline: 0 none;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: .75rem 0.5rem; // Equilibrar el padding horizontal
+            margin: 0 0.25rem; // Agregar margen para equilibrar el borde
+            border-radius: $borderRadius;
+            transition: background-color $transitionDuration, box-shadow $transitionDuration;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            user-select: none;
+
+            .layout-menuitem-icon {
+                margin-right: .75rem;
+                width: 1.25rem;
+                text-align: center;
+                color: var(--primary-color);
+                font-size: 1rem;
+            }
+
+            .layout-menuitem-text {
+                flex: 1;
+                letter-spacing: 0.5px;
+            }
+
+            .layout-submenu-toggler {
+                font-size: 75%;
+                margin-left: auto;
+                transition: transform $transitionDuration;
+                color: var(--text-color-secondary);
+
+                &.rotated {
+                    transform: rotate(-180deg);
+                }
+            }
+
+            &:hover {
+                background-color: var(--surface-hover);
+            }
+
+            // &:focus {
+            //     @include focused-inset();
+            // }
+        }
+
+        // Estado expandido para elementos root
+        &.expanded-root-item {
+            > a {
+                background-color: var(--surface-hover);
+
+                .layout-menuitem-icon {
+                    color: var(--primary-color);
+                }
+
+                .layout-menuitem-text {
+                    color: var(--primary-color);
+                }
+
+                .layout-submenu-toggler.rotated {
+                    transform: rotate(-180deg);
+                }
+            }
+        }
+
+        // Ocultar elementos root sin subitems que no necesiten flecha
+        > a:not(.first-level-expandable) {
+            .layout-submenu-toggler {
+                display: none;
+            }
+        }
+    }
+
+    // Manejo de estados activos
+    a {
+        user-select: none;
+
+        &.active-menuitem {
+            > .layout-submenu-toggler {
+                transform: rotate(-180deg);
+            }
+        }
+    }
+
+    li.active-menuitem {
+        > a {
+            .layout-submenu-toggler {
+                transform: rotate(-180deg);
+            }
+        }
+    }
+
+    // Estilos para submenús
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        overflow: hidden;
+
+        // Submenús de primer nivel
+        &.layout-submenu {
+            border-radius: $borderRadius;
+            margin-top: 0.50rem;
+            margin-left: 1.5rem; // Indentar submenús para alinear con el contenido
+        }
+
+        a {
+            display: flex;
+            align-items: left;
+            position: relative;
+            outline: 0 none;
+            color: var(--text-color-secondary);
+            cursor: pointer;
+            padding: .5rem 0.75rem;
+            border-radius: $borderRadius;
+            transition: background-color $transitionDuration, box-shadow $transitionDuration;
+            font-size: 1.1rem;
+            margin: 0.125rem 0;
+
+            .layout-menuitem-icon {
+                margin-right: .5rem;
+                width: 1rem;
+                text-align: left;
+                font-size: 0.8rem;
+            }
+
+            .layout-submenu-toggler {
+                font-size: 75%;
+                margin-left: 0.5rem;
+                transition: transform $transitionDuration;
+                display: none; // Ocultar flechas en todos los submenús
+            }
+
+            &.active-route {
+                font-weight: 700;
+                // color: var(--primary-color-text);
+                // background-color: var(--primary-color);
+            }
+
+            &:hover {
+                background-color: var(--surface-100);
+                color: var(--text-color);
+            }
+
+            &:focus {
+                @include focused-inset();
+            }
+        }
+
+        // Anidamiento de submenús con indentación
+        ul {
+            overflow: hidden;
+            border-radius: $borderRadius;
+
+            li {
+                a {
+                    margin-left: 1rem;
+
+                    // Ocultar flechas de expandir/colapsar en submenús anidados
+                    .layout-submenu-toggler {
+                        display: none;
+                    }
+                }
+
+                li {
+                    a {
+                        margin-left: 2rem;
+
+                        .layout-submenu-toggler {
+                            display: none;
+                        }
+                    }
+
+                    li {
+                        a {
+                            margin-left: 2.5rem;
+
+                            .layout-submenu-toggler {
+                                display: none;
+                            }
+                        }
+
+                        li {
+                            a {
+                                margin-left: 3rem;
+
+                                .layout-submenu-toggler {
+                                    display: none;
+                                }
+                            }
+
+                            li {
+                                a {
+                                    margin-left: 3.5rem;
+
+                                    .layout-submenu-toggler {
+                                        display: none;
+                                    }
+                                }
+
+                                li {
+                                    a {
+                                        margin-left: 4rem;
+
+                                        .layout-submenu-toggler {
+                                            display: none;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Ajustes para modo oscuro
+.layout-dark {
+    .layout-menu {
+        .layout-root-menuitem {
+            &.expanded-root-item {
+                > a {
+                    background-color: var(--surface-ground);
+                }
+            }
+
+            > a {
+                &:hover {
+                    background-color: var(--surface-ground);
+                }
+            }
+        }
+
+        ul {
+            a {
+                &:hover {
+                    background-color: var(--surface-ground);
+                }
+            }
+        }
+    }
+}
+
+// Responsive - ajustes para móvil
+@media (max-width: 768px) {
+    .layout-menu {
+        .layout-root-menuitem {
+            > a {
+                padding: .75rem 0.5rem; // Mantener el padding equilibrado en móvil
+                margin: 0 0.25rem; // Mantener el margen en móvil
+            }
+        }
+
+        ul {
+            &.layout-submenu {
+                .layout-root-menuitem {
+                    padding-left: 1.5rem;
+                }
+            }
+        }
+    }
+}
